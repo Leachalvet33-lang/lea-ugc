@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✏️ TITRE DE L'ONGLET + DESCRIPTION GOOGLE -->
+  <title>Léa — Créatrice UGC beauté & lifestyle</title>
+  <meta name="description" content="Léa, créatrice de contenu UGC beauté & lifestyle : vidéos authentiques pour les marques." />
+
+  <!-- Favicon (icône de l'onglet) : fichiers dans le dossier favicon/ -->
+  <link rel="icon" href="favicon/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+  <meta name="theme-color" content="#E8B9AC" />
+
+  <!-- Polices : Cormorant (titres), DM Sans (texte), Great Vibes (manuscrite) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;600&family=Great+Vibes&family=Inter:wght@500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       🎨 COULEURS & TYPOGRAPHIES
+       Modifiez ici pour changer l'ambiance de tout le site.
+       ========================================================= */
+    :root {
+      --cream:      #FBF6F1;  /* fond principal */
+      --paper:      #FFFDFB;  /* fond des cartes */
+      --blush:      #F4DCD4;  /* rose poudré */
+      --rose:       #E8B9AC;  /* rose plus soutenu */
+      --sand:       #F1E6DA;  /* beige */
+      --accent:     #A85F4E;  /* terracotta (boutons, liens, chiffres) */
+      --ink:        #3B2F2C;  /* texte principal */
+      --muted:      #7A6A65;  /* texte secondaire */
+      --line:       #EADBD2;  /* bordures fines */
+
+      --font-title:  "Cormorant Garamond", Georgia, serif;
+      --font-body:   "DM Sans", system-ui, -apple-system, sans-serif;
+      --font-script: "Great Vibes", cursive;
+
+      --radius: 22px;
+      --shadow-soft: 0 10px 30px -12px rgba(120, 72, 58, .22);
+      --shadow-lift: 0 22px 45px -14px rgba(120, 72, 58, .38);
+      --max: 1120px;
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; }
+    h1, h2, h3 { font-family: var(--font-title); font-weight: 600; line-height: 1.1; margin: 0; }
+    p { margin: 0 0 1em; }
+    p:last-child { margin-bottom: 0; }
+
+    .container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    section { padding: 72px 0; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title { font-size: clamp(2rem, 6vw, 3rem); text-align: center; }
+    .section-head { text-align: center; margin-bottom: 44px; }
+    .section-head p { color: var(--muted); max-width: 520px; margin: 14px auto 0; }
+
+    /* ---------- Bouton ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 30px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: .02em;
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); background: var(--accent); }
+    .btn svg { width: 18px; height: 18px; transition: transform .3s ease; }
+    .btn:hover svg { transform: translateX(4px); }
+
+    /* ---------- Apparition au scroll ---------- */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+      transition-delay: var(--delay, 0ms);
+    }
+    [data-reveal].is-visible { opacity: 1; transform: none; }
+
+    /* ---------- Photos détourées + emplacement vide ---------- */
+    .photo { position: relative; }
+    .photo img { width: 100%; height: auto; position: relative; z-index: 1; }
+    /* Forme douce derrière la photo détourée */
+    .photo::before {
+      content: "";
+      position: absolute;
+      inset: 18% 6% 0 6%;
+      background: linear-gradient(160deg, var(--blush), var(--sand));
+      border-radius: 50% 50% 28px 28px / 40% 40% 28px 28px;
+      z-index: 0;
+    }
+    /* Si l'image n'est pas encore fournie : un emplacement s'affiche */
+    .photo.is-empty img { display: none; }
+    .photo.is-empty { aspect-ratio: 4 / 5; }
+    .photo.is-empty::before { inset: 0; }
+    .photo.is-empty::after {
+      content: attr(data-placeholder);
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      text-align: center;
+      padding: 20px;
+      font-size: .85rem;
+      white-space: pre-line;
+      color: var(--muted);
+      z-index: 1;
+    }
+
+    /* =========================================================
+       TITRE PRINCIPAL (haut de page)
+       ========================================================= */
+    .page-title { padding-top: 56px; padding-bottom: 40px; position: relative; overflow-x: clip; }
+    .page-title::before {
+      content: "";
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, var(--blush) 0%, transparent 70%);
+      opacity: .7;
+      z-index: -1;
+    }
+    .page-title h1 {
+      font-size: clamp(2.6rem, 10vw, 5rem);
+      text-align: center;
+    }
+    .page-title h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+
+    /* =========================================================
+       SECTION 2 — PORTRAIT & TEXTE (ancienne section 1)
+       ========================================================= */
+    .hero-grid { display: grid; gap: 32px; align-items: center; }
+    .hero-photo { max-width: 360px; margin: 0 auto; width: 100%; }
+    .hero-text { font-size: 1.05rem; --delay: 150ms; max-width: 34em; margin-inline: auto; width: 100%; } /* 34em ≈ 72 caractères par ligne avec DM Sans */
+    .hero-text .lead {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      line-height: 1.3;
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+    .hero-text p { color: var(--muted); }
+    .hero-text strong { font-weight: 600; color: var(--ink); } /* noms de marques en légère valeur */
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 24px; padding: 0; list-style: none; } /* juste sous le titre en italique */
+    .hero-tags li {
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: .85rem;
+      background: var(--paper);
+    }
+
+    /* =========================================================
+       SECTION 1 — PRÉSENTATION (photo + flèche + prénom)
+       ========================================================= */
+    .intro { background: var(--paper); }
+    .intro-grid { display: grid; gap: 40px; align-items: center; }
+    .intro-visual {
+      display: flex;
+      justify-content: center;
+      padding: 24px 110px 0 0; /* place à droite pour la flèche et le prénom */
+    }
+    /* Bloc qui a exactement la taille du portrait :
+       la flèche et le prénom sont placés en % de ce bloc,
+       ils suivent donc le portrait quelle que soit la taille d'écran. */
+    .intro-figure {
+      position: relative;
+      width: min(270px, 56vw); /* ✏️ largeur du portrait */
+    }
+    /* Forme organique floue derrière le portrait */
+    .intro-figure::before {
+      content: "";
+      position: absolute;
+      left: -22%; right: -30%;
+      top: 8%; bottom: 18%;
+      background:
+        radial-gradient(ellipse at 40% 35%, var(--blush) 0%, transparent 62%),
+        radial-gradient(ellipse at 70% 70%, var(--sand) 0%, transparent 60%);
+      border-radius: 58% 42% 55% 45% / 45% 55% 45% 55%;
+      filter: blur(28px);
+      opacity: .85;
+      z-index: 0;
+    }
+    /* Ombre portée douce : sur le parent pour ne pas être coupée par le masque */
+    .intro-portrait {
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 18px 28px rgba(120, 72, 58, .16)) drop-shadow(0 4px 8px rgba(120, 72, 58, .08));
+    }
+    .intro-portrait img {
+      width: 100%;
+      height: auto;
+      /* Le bas du portrait se fond dans la page */
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 76%, transparent 94%);
+              mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0,0,0,.5) 76%, transparent 94%);
+    }
+    .intro-name {
+      position: absolute;
+      left: 96%; top: -2%;
+      font-family: var(--font-script);
+      font-size: clamp(3.2rem, 13vw, 4.4rem);
+      line-height: 1;
+      color: var(--accent);
+      transform: rotate(-6deg);
+      white-space: nowrap;
+      z-index: 3;
+    }
+    .intro-arrow {
+      position: absolute;
+      left: 82%; top: 7%;
+      width: 34%; aspect-ratio: 1;
+      z-index: 3;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .intro-arrow path {
+      fill: none;
+      stroke: var(--ink);
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    .intro-visual.is-drawn .arrow-line { animation: draw 1.1s ease forwards; }
+    .intro-visual.is-drawn .arrow-head { animation: draw .4s ease 1.05s forwards; }
+    .intro-visual.is-drawn .intro-name  { animation: pop .6s ease 1.2s both; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes pop {
+      0%   { opacity: 0; transform: rotate(-6deg) scale(.85); }
+      100% { opacity: 1; transform: rotate(-6deg) scale(1); }
+    }
+    .intro-text h2 { font-size: clamp(2rem, 6vw, 2.8rem); margin-bottom: 20px; }
+    .intro-text p { color: var(--muted); }
+    .intro-signature { margin-top: 24px; margin-bottom: 0; font-family: var(--font-script); font-size: 2rem; color: var(--ink); }
+    .intro-cta { margin-top: 26px; }
+
+    /* =========================================================
+       SECTION 3 — LES 4 ÉTAPES
+       ========================================================= */
+    .steps { display: grid; gap: 20px; list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    .step {
+      position: relative;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 24px 26px;
+      transition: transform .35s ease, box-shadow .35s ease, opacity .8s ease;
+    }
+    .step:hover { transform: translateY(-6px); box-shadow: var(--shadow-soft); }
+    .step-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .step-num {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--rose);
+    }
+    .step-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--blush);
+      display: grid; place-items: center;
+      color: var(--accent);
+    }
+    .step-icon svg { width: 26px; height: 26px; }
+    .step h3 { font-size: 1.5rem; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: .95rem; }
+
+    /* =========================================================
+       SECTION 4 — PROJETS (vidéos 9:16)
+       ========================================================= */
+    .projects { background: linear-gradient(180deg, var(--cream), var(--sand)); }
+    /* Mobile : défilement horizontal */
+    .reels {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 10px 20px 26px;
+      margin: 0 -20px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .reels::-webkit-scrollbar { display: none; }
+    .reel {
+      flex: 0 0 64%;
+      max-width: 260px;
+      scroll-snap-align: center;
+      position: relative;
+      aspect-ratio: 9 / 16;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      background: linear-gradient(160deg, var(--blush), var(--rose));
+      box-shadow: 0 6px 18px -10px rgba(120,72,58,.3);
+      transition: transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s ease;
+      border: 0; padding: 0; text-align: left; color: inherit; font: inherit;
+    }
+    .reel video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
+    .reel.has-video video { opacity: 1; }
+    /* Placeholder affiché tant qu'il n'y a pas de vidéo */
+    .reel-placeholder {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      color: var(--paper);
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-style: italic;
+    }
+    .reel.has-video .reel-placeholder { display: none; }
+    .reel-play {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 58px; height: 58px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(255,253,251,.85);
+      backdrop-filter: blur(6px);
+      display: grid; place-items: center;
+      color: var(--accent);
+      transition: opacity .3s ease, transform .3s ease;
+      z-index: 2;
+    }
+    .reel-play svg { width: 20px; height: 20px; margin-left: 3px; }
+    .reel-caption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 40px 16px 16px;
+      background: linear-gradient(transparent, rgba(59,47,44,.65));
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 500;
+      z-index: 2;
+    }
+    .reel-caption small { display: block; font-weight: 400; opacity: .85; font-size: .78rem; }
+    /* Signature incrustée (carte The Ordinary + vue agrandie).
+       Placée à 72 % de la hauteur : dans cette vidéo en 4 bandes, c'est la zone entre le cou
+       (bande 3) et le bandeau (bande 4), qui ne recouvre jamais un visage ni les contrôles.
+       Tailles en % de la largeur (cqw) : mêmes proportions sur la carte et en grand. */
+    .reel, .lightbox-inner { container-type: inline-size; }
+    .brand-overlay {
+      position: absolute; left: 0; right: 0;
+      top: 72%; transform: translateY(-50%);
+      margin: 0 auto; width: max-content; max-width: 90%;
+      padding: .5em 1.4em;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      color: #fff;
+      background: radial-gradient(closest-side, rgba(30, 22, 20, .32), rgba(30, 22, 20, 0));
+      text-shadow: 0 1px 6px rgba(0, 0, 0, .45);
+      pointer-events: none;   /* ne gêne ni le clic ni les contrôles de lecture */
+      z-index: 2;
+    }
+    .brand-name {
+      font-family: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif;
+      font-weight: 500;
+      font-size: clamp(12px, 6.4cqw, 30px);
+      letter-spacing: -.01em;
+      line-height: 1.1;
+    }
+    .brand-sub {
+      font-family: var(--font-title);
+      font-style: italic;
+      font-size: clamp(10px, 4.6cqw, 21px);
+      letter-spacing: .1em;
+      line-height: 1.2;
+    }
+    .lightbox-brand[hidden] { display: none; }
+    .reels-hint { text-align: center; font-size: .8rem; color: var(--muted); margin-top: 4px; }
+
+    /* Survol (uniquement sur ordinateur) */
+    @media (hover: hover) and (pointer: fine) {
+      .reel:hover { transform: scale(1.04); box-shadow: var(--shadow-lift); z-index: 2; }
+      .reel:hover .reel-play { opacity: 0; transform: translate(-50%, -50%) scale(.8); }
+    }
+    .reel:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    /* Fenêtre plein écran (lightbox) */
+    .lightbox {
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: grid; place-items: center;
+      padding: 20px;
+      background: rgba(40, 30, 28, .82);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s ease, visibility .35s;
+    }
+    .lightbox.is-open { opacity: 1; visibility: visible; }
+    .lightbox-inner {
+      position: relative;
+      /* Largeur calculée pour tenir à la fois en hauteur et en largeur (9:16), même sur téléphone */
+      width: min(calc(100vw - 48px), calc(86vh * 9 / 16), 484px);
+      aspect-ratio: 9 / 16;
+      transform: scale(.94);
+      transition: transform .35s ease;
+    }
+    .lightbox.is-open .lightbox-inner { transform: scale(1); }
+    .lightbox video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+      background: #000;
+    }
+    .lightbox-empty {
+      position: absolute; inset: 0;
+      display: none; place-items: center;
+      text-align: center; padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, var(--blush), var(--rose));
+      color: var(--ink);
+    }
+    .lightbox.no-video .lightbox-empty { display: grid; }
+    .lightbox.no-video video { display: none; }
+    .lightbox-close {
+      position: absolute;
+      top: -14px; right: -14px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      display: grid; place-items: center;
+      box-shadow: var(--shadow-soft);
+      z-index: 2;
+    }
+    .lightbox-close svg { width: 18px; height: 18px; }
+
+    /* =========================================================
+       SECTION 5 — CONTACT (bandeau pleine largeur)
+       ========================================================= */
+    .contact {
+      background: linear-gradient(120deg, var(--blush) 0%, var(--rose) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact::before, .contact::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,253,251,.35);
+    }
+    .contact::before { width: 260px; height: 260px; top: -90px; left: -80px; }
+    .contact::after  { width: 180px; height: 180px; bottom: -70px; right: 6%; }
+    .contact .container { position: relative; z-index: 1; }
+    .contact h2 { font-size: clamp(2.1rem, 7vw, 3.4rem); margin-bottom: 14px; }
+    .contact p { max-width: 520px; margin: 0 auto 30px; color: var(--ink); opacity: .8; }
+
+    /* =========================================================
+       BAS DE PAGE
+       ========================================================= */
+    .footer { padding: 44px 0 40px; }
+    .footer .container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer-info { display: flex; flex-direction: column; gap: 12px; }
+    .footer-info .eyebrow { margin-bottom: 2px; }
+    .footer-contact { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .footer-contact a {
+      display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: .95rem;
+      transition: color .3s ease;
+    }
+    .footer-contact a svg { width: 17px; height: 17px; color: var(--accent); flex-shrink: 0; }
+    .footer-contact a:hover { color: var(--accent); }
+    .footer-socials { display: flex; gap: 10px; margin-top: 4px; }
+    .footer-socials a {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      display: grid; place-items: center;
+      transition: background .3s ease, color .3s ease, border-color .3s ease, transform .3s ease;
+    }
+    .footer-socials a svg { width: 18px; height: 18px; }
+    .footer-socials a:hover { background: var(--blush); border-color: var(--rose); color: var(--accent); transform: translateY(-2px); }
+    .footer-copy { font-size: .8rem; color: var(--muted); margin-top: 10px; }
+    /* Pied de page sans le lien agence : tout est centré */
+    .footer--no-agency .container,
+    .footer--no-agency .footer-info,
+    .footer--no-agency .footer-contact { align-items: center; text-align: center; }
+    .agency-link { align-self: flex-end; }
+    .agency-link {
+      display: inline-flex; align-items: center; gap: 12px;
+      text-decoration: none;
+      font-size: .95rem;
+      color: var(--ink);
+    }
+    .agency-link span { border-bottom: 1px solid var(--rose); padding-bottom: 2px; transition: border-color .3s ease; }
+    .agency-link .agency-arrow {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--ink);
+      display: grid; place-items: center;
+      transition: background .3s ease, color .3s ease, transform .3s ease;
+    }
+    .agency-link .agency-arrow svg { width: 18px; height: 18px; }
+    .agency-link:hover span { border-color: var(--accent); }
+    .agency-link:hover .agency-arrow { background: var(--ink); color: var(--paper); transform: rotate(-45deg); }
+
+    /* =========================================================
+       TABLETTE & ORDINATEUR
+       ========================================================= */
+    @media (min-width: 720px) {
+      section { padding: 100px 0; }
+      .container { padding: 0 32px; }
+      /* GRILLE-2-COLONNES (désactivée : la section 2 est sur une seule colonne)
+      .hero-grid { grid-template-columns: 1.1fr 1fr; gap: 56px; }
+      .hero-text { order: -1; --delay: 0ms; }
+      .hero-photo { max-width: 420px; --delay: 150ms; }
+      */
+      /* Section 2 sur une seule colonne : texte centré, largeur de lecture confortable */
+      .hero-text { font-size: 1.12rem; --delay: 0ms; }
+      #a-propos { padding: 88px 0; }
+      .intro-grid { grid-template-columns: 1fr 1.1fr; gap: 64px; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .reel { flex-basis: 38%; }
+      .footer .container { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+      /* Sans le lien agence : bloc centré, mail et téléphone sur une ligne */
+      .footer--no-agency .container { flex-direction: column; justify-content: center; align-items: center; }
+      .footer--no-agency .footer-contact { flex-direction: row; gap: 32px; }
+    }
+    @media (min-width: 1024px) {
+      .steps { grid-template-columns: repeat(4, 1fr); }
+      /* Ordinateur : les vidéos sur une ligne, centrées.
+         Chaque carte garde la largeur d'1/5 de la ligne, qu'il y ait 3, 4 ou 5 vidéos. */
+      .reels {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: calc((100% - 4 * 20px) / 5);
+        justify-content: center;
+        overflow: visible;
+        margin: 0;
+        padding: 10px 0 26px;
+        gap: 20px;
+      }
+      .reel { max-width: none; }
+      .reels-hint { display: none; }
+    }
+
+    /* =========================================================
+       ⏸️ SECTION 2 — ÉVENTAIL DE MINIATURES : DÉSACTIVÉ POUR LE MOMENT
+       Pour le réactiver :
+         1. supprimez la ligne « ÉVENTAIL-CSS-DÉBUT » et la ligne « ÉVENTAIL-CSS-FIN » (début et fin du commentaire) ;
+         2. faites de même pour le HTML (repère « ÉVENTAIL-HTML ») et pour la ligne
+            « .fan.is-visible … animation: none » dans le bloc prefers-reduced-motion ;
+         3. réactivez la grille à 2 colonnes (repère « GRILLE-2-COLONNES »).
+       Mémo : les images viennent de images/poster-*.jpg ; data-pos -2 → 2 = position de gauche à droite
+       (0 = au centre, devant) ; sur mobile seules -1, 0 et 1 s'affichent.
+       ========================================================= */
+    /* ÉVENTAIL-CSS-DÉBUT
+    .fan { position: relative; aspect-ratio: 1 / .9; }
+    .fan-card {
+      position: absolute; left: 50%; top: 50%;
+      width: 31%; aspect-ratio: 9 / 16;
+      margin: 0;
+      border: 4px solid var(--paper);
+      border-radius: 22px;
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--blush), var(--rose));
+      box-shadow: 0 22px 40px -18px rgba(120, 72, 58, .45), 0 4px 12px -6px rgba(120, 72, 58, .2);
+      transform: translate(-50%, -50%) translateX(var(--x, 0%)) translateY(var(--y, 0%)) rotate(var(--r, 0deg));
+      z-index: var(--z, 1);
+      transition: transform .45s cubic-bezier(.2, .75, .25, 1), box-shadow .45s ease;
+    }
+    .fan-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    .fan-card.is-empty img { display: none; }
+    .fan-card.is-empty::after {
+      content: "Miniature\Aà venir"; white-space: pre; position: absolute; inset: 0;
+      display: grid; place-items: center; text-align: center;
+      font-family: var(--font-title); font-style: italic; color: var(--paper); font-size: 1rem;
+    }
+
+    .fan-card[data-pos="-2"] { --x: -90%; --y: 7%;  --r: -11deg; --z: 1; --d: 240ms; }
+    .fan-card[data-pos="-1"] { --x: -47%; --y: 1%;  --r: -5deg;  --z: 2; --d: 120ms; }
+    .fan-card[data-pos="0"]  { --x: 0%;   --y: -3%; --r: 0deg;   --z: 3; --d: 0ms; }
+    .fan-card[data-pos="1"]  { --x: 47%;  --y: 1%;  --r: 5deg;   --z: 2; --d: 120ms; }
+    .fan-card[data-pos="2"]  { --x: 90%;  --y: 7%;  --r: 11deg;  --z: 1; --d: 240ms; }
+
+    .fan.is-visible .fan-card { animation: fan-open 1s cubic-bezier(.2, .75, .25, 1) var(--d) backwards; }
+    @keyframes fan-open {
+      from { transform: translate(-50%, -50%) translateY(6%) rotate(0deg) scale(.9); }
+    }
+
+    @media (min-width: 720px) {
+      .fan.hero-photo { max-width: 500px; }
+      .fan { aspect-ratio: 1 / .92; }
+      .fan-card { width: 39%; }
+      .fan-card[data-pos="-2"] { --x: -80%; }
+      .fan-card[data-pos="-1"] { --x: -42%; }
+      .fan-card[data-pos="1"]  { --x: 42%; }
+      .fan-card[data-pos="2"]  { --x: 80%; }
+    }
+
+    @media (max-width: 719px) {
+      .fan { aspect-ratio: 1 / .95; }
+      .fan-card { width: 40%; }
+      .fan-card[data-pos="-2"], .fan-card[data-pos="2"] { display: none; }
+      .fan-card[data-pos="-1"] { --x: -58%; }
+      .fan-card[data-pos="1"]  { --x: 58%; }
+    }
+    ÉVENTAIL-CSS-FIN */
+
+    /* Respect des préférences "réduire les animations" */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      [data-reveal] { opacity: 1; transform: none; }
+      .intro-arrow path { stroke-dashoffset: 0; }
+      /* .fan.is-visible .fan-card { animation: none; }   (éventail désactivé) */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       TITRE PRINCIPAL (tout en haut de la page)
+       ========================================================= -->
+  <header class="page-title" id="accueil">
+    <div class="container">
+      <!-- ✏️ TITRE PRINCIPAL -->
+      <h1 data-reveal>Créatrice UGC <em>beauté</em> &amp; lifestyle</h1>
+    </div>
+  </header>
+
+
+  <!-- =========================================================
+       SECTION 1 — PRÉSENTATION (portrait + flèche vers « Léa » + texte)
+       ========================================================= -->
+  <section class="intro" id="presentation">
+    <div class="container intro-grid">
+
+      <!-- Côté gauche : photo + flèche animée + prénom -->
+      <div class="intro-visual" data-reveal>
+        <div class="intro-figure">
+          <!-- 🖼️ PHOTO 2 (détourée)
+               WebP (léger) + PNG en secours pour les vieux navigateurs.
+               Pour changer de photo : remplacez les 2 fichiers dans "images"
+               et mettez à jour width/height (dimensions réelles en pixels). -->
+          <picture class="intro-portrait">
+            <source srcset="images/lea-presentation.webp" type="image/webp" />
+            <img src="images/lea-presentation.png" width="580" height="1441" alt="Portrait de Léa, souriante, de dos en robe noire" fetchpriority="high" decoding="async" />
+          </picture>
+
+          <!-- Flèche dessinée à la main (s'anime au scroll et au survol) -->
+          <svg class="intro-arrow" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="arrow-line" pathLength="1" d="M18 112 C 10 80, 30 52, 58 46 C 78 42, 82 30, 84 14" />
+            <path class="arrow-head" pathLength="1" d="M72 24 L84 12 L94 26" />
+          </svg>
+
+          <!-- ✏️ PRÉNOM en écriture manuscrite -->
+          <span class="intro-name">Léa</span>
+        </div>
+      </div>
+
+      <!-- ✏️ Côté droit : TEXTE DE PRÉSENTATION (provisoire) -->
+      <div class="intro-text" data-reveal style="--delay:150ms">
+        <span class="eyebrow">Enchantée</span>
+        <h2>Derrière la caméra, il y a moi</h2>
+        <p>Passionnée de beauté et de jolies routines depuis toujours, j’aime partager mes nouvelles trouvailles avec un vrai souci du détail. Formée au marketing et habituée à travailler aux côtés de marques, je sais qu’une bonne vidéo ne se contente pas d’être belle : elle doit raconter quelque chose et donner envie d’agir.</p>
+        <p>Mon objectif ? Créer pour vous des contenus qui vous ressemblent, fidèles à votre univers et pensés pour toucher votre cible. Des vidéos naturelles, crédibles, qui inspirent confiance autant qu’elles font rêver.</p>
+        <p>Lumière naturelle, mises en scène soignées et ton spontané : c’est ma signature.</p>
+        <p class="intro-signature">À très vite !</p>
+        <!-- ✏️ Bouton de contact : ouvre un nouveau mail (même lien que « Travaillons ensemble ») -->
+        <div class="intro-cta">
+          <a class="btn" href="mailto:leachalvet@outlook.fr?subject=Demande%20de%20collaboration%20UGC&amp;body=Bonjour%20L%C3%A9a%2C%20je%20vous%20contacte%20au%20sujet%20d%E2%80%99une%20collaboration%20UGC%20pour%20notre%20marque%20%3A%20">
+            Me contacter
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 2 — PORTRAIT & TEXTE DE PRÉSENTATION (ancienne section 1)
+       ========================================================= -->
+  <section class="hero" id="a-propos">
+    <div class="container">
+
+      <div class="hero-grid">
+        <!-- ⏸️ ÉVENTAIL DE MINIATURES — désactivé pour le moment. Pour le réactiver, supprimez
+             les lignes « ÉVENTAIL-HTML-DÉBUT » et « ÉVENTAIL-HTML-FIN » (voir aussi le CSS). -->
+        <!-- ÉVENTAIL-HTML-DÉBUT
+        <div class="fan hero-photo" data-reveal role="group" aria-label="Aperçu de mes vidéos UGC">
+          <figure class="fan-card" data-pos="-2">
+            <img src="images/poster-the-ordinary.jpg" alt="Miniature de la vidéo The Ordinary : routine skincare avec trois produits et application d'un masque" loading="lazy" onerror="this.parentElement.classList.add('is-empty')" />
+          </figure>
+          <figure class="fan-card" data-pos="-1">
+            <img src="images/poster-la-favorite.jpg" alt="Miniature de la vidéo La Favorite by Jean Paul Gaultier : le flacon de parfum sur fond rouge" loading="lazy" onerror="this.parentElement.classList.add('is-empty')" />
+          </figure>
+          <figure class="fan-card" data-pos="0">
+            <img src="images/poster-levis.jpg" alt="Miniature de la vidéo Levi’s : Léa en jean large, selfie dans le miroir" loading="lazy" onerror="this.parentElement.classList.add('is-empty')" />
+          </figure>
+          <figure class="fan-card" data-pos="1">
+            <img src="images/poster-clarins.jpg" alt="Miniature de la vidéo Clarins : pot de gommage ouvert au-dessus d'une piscine" loading="lazy" onerror="this.parentElement.classList.add('is-empty')" />
+          </figure>
+          <figure class="fan-card" data-pos="2">
+            <img src="images/poster-vlog-holiday.jpg" alt="Miniature de la vidéo GRWM : Léa se prépare, selfie dans le miroir" loading="lazy" onerror="this.parentElement.classList.add('is-empty')" />
+          </figure>
+        </div>
+        ÉVENTAIL-HTML-FIN -->
+
+        <!-- ✏️ TEXTE DE PRÉSENTATION (provisoire) -->
+        <div class="hero-text" data-reveal>
+          <p class="lead">Des contenus authentiques qui donnent envie de cliquer, d'essayer et d'adopter vos produits.</p>
+          <ul class="hero-tags">
+            <!-- ✏️ Petits mots-clés : ajoutez / retirez des <li> -->
+            <li>Skincare</li>
+            <li>Maquillage</li>
+            <li>Bien-être</li>
+            <li>Lifestyle</li>
+          </ul>
+          <p><strong>Jean Paul Gaultier, The Ordinary, Clarins, Maybelline</strong>… Ces marques m’ont fait confiance, chacune avec son univers et ses exigences. À chaque projet, le même engagement : comprendre votre identité, respecter votre brief et livrer des contenus prêts à performer.</p>
+          <p>Je maîtrise différents formats (GRWM, unboxing, voix off, avis produit, démonstration de texture) et j’apporte à chaque vidéo ce regard qui fait la différence : une accroche qui retient l’attention, une esthétique soignée et un ton naturel qui inspire confiance. Des contenus aussi authentiques que stratégiques, pensés pour vos réseaux comme pour vos campagnes publicitaires.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 3 — LE FONCTIONNEMENT D'UNE COLLABORATION
+       ========================================================= -->
+  <section class="process" id="collaboration">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Étape par étape</span>
+        <h2 class="section-title">Et si on collaborait&nbsp;?</h2>
+      </div>
+
+      <ol class="steps">
+        <!-- ✏️ ÉTAPE 1 -->
+        <li class="step" data-reveal style="--delay:0ms">
+          <div class="step-top">
+            <span class="step-num">01</span>
+            <span class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg>
+            </span>
+          </div>
+          <h3>Le brief</h3>
+          <p>On échange sur votre marque, vos produits, vos objectifs et le message que vous souhaitez transmettre.</p>
+        </li>
+
+        <!-- ✏️ ÉTAPE 2 -->
+        <li class="step" data-reveal style="--delay:150ms">
+          <div class="step-top">
+            <span class="step-num">02</span>
+            <span class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9V16h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3z"/></svg>
+            </span>
+          </div>
+          <h3>La mise en place de la stratégie</h3>
+          <p>Je vous propose des concepts, des accroches et un script adaptés à votre cible et aux plateformes visées. Nous validons ensemble ce que vous souhaitez mettre en avant.</p>
+        </li>
+
+        <!-- ✏️ ÉTAPE 3 -->
+        <li class="step" data-reveal style="--delay:300ms">
+          <div class="step-top">
+            <span class="step-num">03</span>
+            <span class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="M16 11l5-3v9l-5-3"/></svg>
+            </span>
+          </div>
+          <h3>La réalisation du contenu</h3>
+          <p>Tournage, montage, sous-titres : je crée des vidéos naturelles et soignées, prêtes à être publiées.</p>
+        </li>
+
+        <!-- ✏️ ÉTAPE 4 -->
+        <li class="step" data-reveal style="--delay:450ms">
+          <div class="step-top">
+            <span class="step-num">04</span>
+            <span class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg>
+            </span>
+          </div>
+          <h3>La validation</h3>
+          <p>Vous recevez les contenus, on ajuste si besoin, puis je vous livre les fichiers finaux en haute qualité.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SECTION 4 — MES PROJETS (vidéos verticales 9:16)
+
+       🎬 POUR AJOUTER VOS VIDÉOS :
+       1. Déposez vos fichiers .mp4 dans le dossier "videos"
+          (noms prévus : projet-1.mp4, projet-2.mp4, … projet-5.mp4)
+       2. Ou changez le chemin dans src="..." de chaque <video>.
+       3. Optionnel : ajoutez poster="images/miniature-1.jpg" sur la balise <video>
+          pour afficher une image avant le chargement.
+       4. Modifiez la légende dans <span class="reel-caption">.
+       Tant qu'une vidéo est absente, un joli placeholder rose s'affiche.
+       ========================================================= -->
+  <section class="projects" id="projets">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Portfolio</span>
+        <h2 class="section-title">Un aperçu de mes projets</h2>
+      </div>
+
+      <div class="reels" data-reveal>
+
+        <!-- 🎬 VIDÉO 1 -->
+        <button class="reel" type="button" aria-label="Voir la vidéo La Favorite by Jean Paul Gaultier en grand">
+          <span class="reel-placeholder">Vidéo 1</span>
+          <video src="videos/la-favorite.mp4" poster="images/poster-la-favorite.jpg" muted loop playsinline preload="metadata"></video>
+          <span class="reel-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></span>
+          <span class="reel-caption">La Favorite<br />by Jean Paul Gaultier <small>Parfum</small></span>
+        </button>
+
+        <!-- 🎬 VIDÉO 2 -->
+        <button class="reel" type="button" aria-label="Voir la vidéo Clarins en grand">
+          <span class="reel-placeholder">Vidéo 2</span>
+          <video src="videos/clarins.mp4" poster="images/poster-clarins.jpg" muted loop playsinline preload="metadata"></video>
+          <span class="reel-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></span>
+          <span class="reel-caption">Clarins <small>Beauté</small></span>
+        </button>
+
+        <!-- 🎬 VIDÉO 3 -->
+        <button class="reel" type="button" aria-label="Voir la vidéo GRWM en grand">
+          <span class="reel-placeholder">Vidéo 3</span>
+          <video src="videos/vlog-holiday.mp4" poster="images/poster-vlog-holiday.jpg" muted loop playsinline preload="metadata"></video>
+          <span class="reel-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></span>
+          <span class="reel-caption">GRWM <small>Lifestyle</small></span>
+        </button>
+
+        <!-- 🎬 VIDÉO 4 -->
+        <!-- Carte avec signature incrustée (brand-overlay), reprise aussi dans la vue agrandie.
+             data-lightbox-loop="true" : la vidéo tourne en boucle quand elle est ouverte en grand. -->
+        <button class="reel reel--brand" type="button" aria-label="Voir la vidéo The Ordinary en grand" data-lightbox-loop="true">
+          <span class="reel-placeholder">Vidéo 4</span>
+          <video src="videos/the-ordinary.mp4" poster="images/poster-the-ordinary.jpg" muted loop playsinline preload="metadata"></video>
+          <span class="reel-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></span>
+          <!-- ✏️ Texte incrusté sur la vidéo (aussi affiché en grand) -->
+          <span class="brand-overlay" aria-hidden="true">
+            <span class="brand-name">The Ordinary.</span>
+            <span class="brand-sub">skincare</span>
+          </span>
+          <span class="reel-caption">The Ordinary <small>Beauté</small></span>
+        </button>
+
+        <!-- 🎬 VIDÉO 5 -->
+        <button class="reel" type="button" aria-label="Voir la vidéo Levi’s en grand">
+          <span class="reel-placeholder">Vidéo 5</span>
+          <video src="videos/levis.mp4" poster="images/poster-levis.jpg" muted loop playsinline preload="metadata"></video>
+          <span class="reel-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></span>
+          <span class="reel-caption">Levi’s <small>Mode</small></span>
+        </button>
+
+      </div>
+      <p class="reels-hint">← Faites défiler pour voir plus →</p>
+    </div>
+  </section>
+
+  <!-- Fenêtre plein écran pour les vidéos (ne pas modifier) -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Lecture de la vidéo" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <video controls playsinline></video>
+      <div class="brand-overlay lightbox-brand" aria-hidden="true" hidden></div>
+      <div class="lightbox-empty">Votre vidéo s'affichera ici<br />une fois le fichier ajouté.</div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       SECTION 5 — CONTACT
+       ========================================================= -->
+  <section class="contact" id="contact">
+    <div class="container" data-reveal>
+      <!-- ✏️ PHRASE D'ACCROCHE -->
+      <h2>Une idée, un produit, une envie ?</h2>
+      <p>Parlons de votre marque et imaginons ensemble des contenus qui vous ressemblent vraiment.</p>
+      <!-- ✏️ Bouton de contact : ouvre un nouveau mail à leachalvet@outlook.fr
+           (objet et début de message préremplis — même lien que « Me contacter ») -->
+      <a class="btn" href="mailto:leachalvet@outlook.fr?subject=Demande%20de%20collaboration%20UGC&amp;body=Bonjour%20L%C3%A9a%2C%20je%20vous%20contacte%20au%20sujet%20d%E2%80%99une%20collaboration%20UGC%20pour%20notre%20marque%20%3A%20">
+        Travaillons ensemble
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       BAS DE PAGE
+       ========================================================= -->
+  <!-- La classe "footer--no-agency" centre le pied de page tant que le lien agence est désactivé.
+       Retirez-la si vous réactivez le lien agence (voir plus bas). -->
+  <footer class="footer footer--no-agency">
+    <div class="container">
+      <!-- ✏️ MES COORDONNÉES -->
+      <div class="footer-info">
+        <span class="eyebrow">Mes coordonnées</span>
+        <ul class="footer-contact">
+          <li>
+            <a href="mailto:leachalvet@outlook.fr">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>
+              leachalvet@outlook.fr
+            </a>
+          </li>
+          <!-- ⏸️ TÉLÉPHONE — masqué pour le moment (retirez les deux lignes de commentaire pour le réafficher) -->
+          <!--
+          <li>
+            <a href="tel:+33631988891">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              06&nbsp;31&nbsp;98&nbsp;88&nbsp;91
+            </a>
+          </li>
+          -->
+        </ul>
+
+        <!-- ⏸️ RÉSEAUX — DÉSACTIVÉS POUR LE MOMENT
+             Pour les réactiver : supprimez les deux lignes de commentaire qui entourent
+             le bloc <div class="footer-socials"> ci-dessous, puis remplacez "A-REMPLACER"
+             par vos vrais identifiants LinkedIn et Instagram. -->
+        <!--
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/in/A-REMPLACER" target="_blank" rel="noopener" aria-label="Mon profil LinkedIn (nouvel onglet)">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 13.4c0-3.1-1.65-4.9-4.3-4.9-1.6 0-2.62.86-3.06 1.6V8.5H9.7V20h3.38v-6.1c0-1.5.6-2.6 2-2.6 1.33 0 1.98.95 1.98 2.6V20h3.38v-6.6z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/A-REMPLACER" target="_blank" rel="noopener" aria-label="Mon compte Instagram (nouvel onglet)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></svg>
+          </a>
+        </div>
+        -->
+
+        <!-- ✏️ Mention bas de page -->
+        <p class="footer-copy">© <span id="year">2026</span> Léa — Créatrice UGC</p>
+      </div>
+
+      <!-- ⏸️ LIEN VERS L'AGENCE — DÉSACTIVÉ POUR LE MOMENT
+           Pour le réactiver :
+           1. supprimez les deux lignes qui contiennent seulement les balises de commentaire
+              juste avant et juste après le bloc <a class="agency-link"> ci-dessous ;
+           2. retirez la classe "footer--no-agency" sur la balise <footer> plus haut ;
+           3. remplacez https://www.mon-agence.fr par votre URL.
+      -->
+      <!--
+      <a class="agency-link" href="https://www.mon-agence.fr" target="_blank" rel="noopener">
+        <span>Découvrir mon agence de communication</span>
+        <span class="agency-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+      -->
+    </div>
+  </footer>
+
+
+  <!-- =========================================================
+       SCRIPTS (pas besoin de modifier)
+       ========================================================= -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ---------- Apparition au scroll ---------- */
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const introVisual = document.querySelector('.intro-visual');
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          if (entry.target === introVisual) introVisual.classList.add('is-drawn');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach((el) => io.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('is-visible'));
+      introVisual.classList.add('is-drawn');
+    }
+
+    /* ---------- Flèche : se redessine au survol ---------- */
+    introVisual.addEventListener('mouseenter', () => {
+      introVisual.classList.remove('is-drawn');
+      void introVisual.offsetWidth; // relance l'animation
+      introVisual.classList.add('is-drawn');
+    });
+
+    /* ---------- Vidéos : survol = lecture muette, clic = plein écran avec son ---------- */
+    const lightbox = document.getElementById('lightbox');
+    const lbVideo = lightbox.querySelector('video');
+    let lastFocus = null;
+
+    document.querySelectorAll('.reel').forEach((card) => {
+      const video = card.querySelector('video');
+
+      // La vidéo existe → on masque le placeholder.
+      // Une miniature (poster) suffit pour afficher la carte tout de suite ; sinon on attend
+      // les infos du fichier (Safari, surtout sur iPhone, ne charge pas la 1re image à l'avance).
+      const showVideo = () => card.classList.add('has-video');
+      if (video.getAttribute('poster') || video.readyState >= 1) showVideo();
+      video.addEventListener('loadedmetadata', showVideo);
+      video.addEventListener('loadeddata', showVideo);
+      // Fichier introuvable → on revient au placeholder
+      video.addEventListener('error', () => card.classList.remove('has-video'));
+
+      // Survol à la souris uniquement (vérifié à chaque fois : fiable aussi sur les écrans tactiles hybrides)
+      card.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse' || !card.classList.contains('has-video')) return;
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+      card.addEventListener('pointerleave', (e) => {
+        // Rien à faire si la vidéo n'a jamais été lancée (la miniature est déjà affichée)
+        if (e.pointerType !== 'mouse' || (video.paused && video.played.length === 0)) return;
+        video.pause();
+        video.load(); // revient au début et réaffiche la miniature (poster)
+      });
+
+      card.addEventListener('click', () => openLightbox(card, video));
+    });
+
+    const lbBrand = lightbox.querySelector('.lightbox-brand');
+
+    function openLightbox(card, video) {
+      lastFocus = card;
+      video.pause();
+      const hasVideo = card.classList.contains('has-video');
+      lightbox.classList.toggle('no-video', !hasVideo);
+      if (hasVideo) {
+        lbVideo.src = video.currentSrc || video.src;
+        if (video.poster) lbVideo.poster = video.poster;
+        lbVideo.muted = false;
+        lbVideo.loop = card.dataset.lightboxLoop === 'true'; // boucle seulement pour les cartes qui la demandent
+        lbVideo.currentTime = 0;
+        lbVideo.play().catch(() => {});
+      }
+      const brand = card.querySelector('.brand-overlay'); // signature reprise en grand si la carte en a une
+      lbBrand.innerHTML = brand ? brand.innerHTML : '';
+      lbBrand.hidden = !brand || !hasVideo;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lightbox.querySelector('.lightbox-close').focus();
+    }
+
+    function closeLightbox() {
+      lbVideo.pause();
+      lbVideo.loop = false;
+      lbBrand.hidden = true;
+      lbVideo.removeAttribute('src');
+      lbVideo.load();
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
+    }
+
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+    });
+  </script>
+</body>
+</html>
